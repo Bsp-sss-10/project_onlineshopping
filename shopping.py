@@ -17,7 +17,7 @@ def home():
     print("---------------------------------------")
     print("---------------------------------------")
     if login_id != "":
-        print("Welcome ", username)
+        print("Welcome", username)
     else:
         print(home_opt_1)
     if login_id == "":    
