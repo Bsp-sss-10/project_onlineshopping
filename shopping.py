@@ -11,20 +11,21 @@ def home():
     print("---------------------------------------")
     print("             ONLINE SHOPPING           ")    
     print("---------------------------------------")
-    print("---------------------------------------")
     if login_id != "":
         print("Welcome", username)
+        print("---------------------------------------")
     else:
+        print("---------------------------------------")
         print("[1] LOGIN")
     if login_id == "":    
         print("[2] CREATE NEW ACCOUNT")
-        
-    print("[3] SEARCH")
-    
+
     if login_id != "":
-        print("[4] YOURS ORDERS")
+        print("[3] YOUR ORDERS")
         
-    print("[5] BUY ITEMS")
+    print("[4] SEARCH ITEMS")
+        
+    print("[5] VIEW ALL ITEMS")
     print("---------------------------------------")
     screen_opt= input("Enter Your Choice: ")
     if screen_opt == '1':
@@ -37,9 +38,9 @@ def home():
             register()
         else:
             invalid()
-    elif screen_opt == '3':
-        search()
     elif screen_opt == '4':
+        search()
+    elif screen_opt == '3':
         if login_id != "":
             order()
         else:
