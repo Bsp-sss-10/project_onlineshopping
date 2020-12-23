@@ -26,25 +26,25 @@ def home():
         
     print("[5] BUY ITEMS")
     print("---------------------------------------")
-    screen_opt= int(input("Enter Your Choice: "))
-    if screen_opt == 1:
+    screen_opt= input("Enter Your Choice: ")
+    if screen_opt == '1':
         if login_id == "":
             login()
         else:
             invalid()
-    elif screen_opt == 2:
+    elif screen_opt == '2':
         if login_id == "":
             register()
         else:
             invalid()
-    elif screen_opt == 3:
+    elif screen_opt == '3':
         search()
-    elif screen_opt == 4:
+    elif screen_opt == '4':
         if login_id != "":
             order()
         else:
             invalid()
-    elif screen_opt == 5:
+    elif screen_opt == '5':
         items()
     else:
         invalid()
