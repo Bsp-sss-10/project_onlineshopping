@@ -2,10 +2,6 @@ login_id=""
 password_id=""
 username="User"
 
-home_opt_1="[1] LOGIN"
-home_opt_2="[2] CREATE NEW ACCOUNT"
-home_opt_4="[4] YOURS ORDERS"
-
 def invalid():
     print("---------------------------------------")
     print("Please Select Valid Option")
@@ -19,14 +15,14 @@ def home():
     if login_id != "":
         print("Welcome", username)
     else:
-        print(home_opt_1)
+        print("[1] LOGIN")
     if login_id == "":    
-        print(home_opt_2)
+        print("[2] CREATE NEW ACCOUNT")
         
     print("[3] SEARCH")
     
     if login_id != "":
-        print(home_opt_4)
+        print("[4] YOURS ORDERS")
         
     print("[5] BUY ITEMS")
     print("---------------------------------------")
