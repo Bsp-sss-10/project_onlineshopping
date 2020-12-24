@@ -1,7 +1,24 @@
 import random
 from datetime import date
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="shivan",
+  password="shivan999",
+  database="shopping",
+)
+cur = mydb.cursor(buffered=True)
 
 choice="Enter your Choice: "
+
+def llog():
+    print("")
+
+llog.login_id=""
+llog.password_id=""
+llog.username=""
+llog.name="User"
 
 def invalid():
     print("---------------------------------------")
@@ -9,38 +26,36 @@ def invalid():
     print("---------------------------------------")
     
 def home():
-    home.login_id=""
-    home.password_id=""
-    home.username=""
-    home.name="User"
     print("---------------------------------------")
     print("             ONLINE SHOPPING           ")    
     print("---------------------------------------")
-    if home.login_id != "":
-        print("Welcome", home.name)
+    if llog.login_id != "":
+        print("Welcome", llog.name)
         print("---------------------------------------")
     else:
         print("---------------------------------------")
         print("[1] LOGIN")
-    if home.login_id == "":    
+    if llog.login_id == "":    
         print("[2] CREATE NEW ACCOUNT")
 
-    if home.login_id != "":
+    if llog.login_id != "":
         print("[3] YOUR ORDERS")
         
     print("[4] SEARCH ITEMS")
         
     print("[5] VIEW ALL ITEMS")
+    if llog.login_id != "":
+        print("[6] LOGOUT")
     print("---------------------------------------")
     screen_opt= input(choice)
     if screen_opt == '1':
-        if home.login_id == "":
+        if llog.login_id == "":
             login()
         else:
             invalid()
             home()
     elif screen_opt == '2':
-        if home.login_id == "":
+        if llog.login_id == "":
             register()
         else:
             invalid()
@@ -48,22 +63,126 @@ def home():
     elif screen_opt == '4':
         search()
     elif screen_opt == '3':
-        if home.login_id != "":
+        if llog.login_id != "":
             order()
         else:
             invalid()
             home()
     elif screen_opt == '5':
         items()
+    elif screen_opt == '6':
+        if llog.login_id != "":
+            logout()
+        else:
+            invalid()
+            home()
     else:
         invalid()
         home()
 
+def logout():
+    llog.login_id=""
+    llog.password_id=""
+    llog.username=""
+    llog.name="User"
+    print("---------------------------------------")
+    print("Logout Successfully !")
+    print("---------------------------------------")
+    home()
+
 def login():
-    print("")
-    
+    print("---------------------------------------")
+    print("                LOGIN                  ")    
+    print("---------------------------------------")
+    llog.login_id1=input("Enter Your Email Address: ")
+    llog.login_id2=llog.login_id1.lower()
+    log_let = len(llog.login_id)
+    log_index= log_let - 1
+    log_verify=0
+    for i in llog.login_id2:
+        if i == "@":
+            log_verify=1
+    if log_verify == 0 or llog.login_id2[log_index] == "@":
+        print("Please Enter Valid Email")
+        log_cre()    
+    cur.execute("SELECT * FROM login")
+    for x in cur:
+        c=str(x[1])
+        if c == llog.login_id2:
+            log_passwo=input("Enter your Password: ")
+            if x[3] == log_passwo:
+                llog.login_id=x[1]
+                llog.password_id=x[3]
+                llog.username=x[2]
+                llog.name=x[0]
+                print("---------------------------------------")
+                print("Loggined Succesfully !!")
+                print("---------------------------------------")
+                home()
+            else:
+                print("---------------------------------------")
+                print("Incorrect Password")
+                print("Please Re enter Password and email")
+                print("---------------------------------------")
+                login()
+            break;
+        else:
+            llog.login_id=""
+            print("Your Email not registered")
+            print("Please Register First!!")
+            home()
+          
 def register():
-    print("")
+    llog.name1=input("Enter Your Name: ")
+    llog.name=llog.name1.lower()
+    usern()
+    log_cre()
+    pass_cre()
+    print("---------------------------------------")
+    print("successfully Login in and Registered!!")
+    print("---------------------------------------")
+    update_login()
+    home()
+
+def log_cre():
+    llog.login_id1=input("Enter Your Email Address: ")
+    llog.login_id=llog.login_id1.lower()
+    log_let = len(llog.login_id)
+    log_index= log_let - 1
+    log_verify=0
+    for i in llog.login_id:
+        if i == "@":
+            log_verify=1
+    if log_verify == 0 or llog.login_id[log_index] == "@":
+        print("Please Enter Valid Email")
+        log_cre()
+    cur.execute("SELECT * FROM login")
+    for x in cur:
+        c=str(x[1])
+        if c == llog.login_id:
+            print("---------------------------------------")
+            print("Email Already Registered !!")
+            print("Please Login from Here")
+            print("---------------------------------------")
+            login()
+            break;
+        
+def pass_cre():
+    llog.password_id=input("Create Your Password (Atleast 5 Letters): ")
+    pass_verify= len(llog.password_id)
+    if pass_verify < 4:
+        print("Please Create Password greater than 5 letters")
+        pass_cre()
+
+def usern():
+    cur.execute("SELECT * FROM login")
+    llog.username1=input("Create your Username: ")
+    llog.username=llog.username1.lower()
+    for x in cur:
+        if x[2] == llog.username:
+            print("Username Already Used Please Retry!!")
+            usern()
+
     
 def search():
     print("")
@@ -145,7 +264,6 @@ def upi():
     else:
         print("Please Enter Correct UPI id")
         upi()
-        
 
 def order_placed():
     print("")
@@ -160,5 +278,21 @@ def order_placed():
     print("Ordered on", order_date)
     #print("Total Amount is", order_amount)
     
+def update_login():    
+    sql = "INSERT INTO login (Name, Email, Username, Password) VALUES (%s, %s, %s, %s)"
+    val = (llog.name, llog.login_id,llog.username,llog.password_id)
+    cur.execute(sql, val)
+    mydb.commit()
+    
+def cleardb_login():
+    sql = "DELETE FROM login"
+    cur.execute(sql)
+    mydb.commit()
+
+def seedb_login():
+    sql = "SELECT * FROM login"
+    cur.execute(sql)
+    for x in cur:
+        print(x)
 
 home()
