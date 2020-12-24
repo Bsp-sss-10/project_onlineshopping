@@ -46,6 +46,10 @@ def home():
     print("[5] VIEW ALL ITEMS")
     if llog.login_id != "":
         print("[6] LOGOUT")
+    print("[7] EXIT")
+    print("---------------------------------------")
+    print(" Press '#' to back to home")
+    print(" From anywhere ( without qoutes )")
     print("---------------------------------------")
     screen_opt= input(choice)
     if screen_opt == '1':
@@ -82,6 +86,8 @@ def home():
         else:
             invalid()
             home()
+    elif screen_opt == '7':
+        quit
     else:
         invalid()
         home()
@@ -101,6 +107,8 @@ def login():
     print("                LOGIN                  ")    
     print("---------------------------------------")
     llog.login_id1=input("Enter Your Email Address: ")
+    if llog.login_id1 == '#':
+        home()
     llog.login_id2=llog.login_id1.lower()
     log_let = len(llog.login_id)
     log_index= log_let - 1
@@ -110,13 +118,15 @@ def login():
             log_verify=1
     if log_verify == 0 or llog.login_id2[log_index] == "@":
         print("Please Enter Valid Email")
-        login()    
+        login()
     cur.execute("SELECT * FROM login")
     for x in cur:
         c=str(x[1])
         if c == llog.login_id2:
             log_passwo=input("Enter your Password: ")
-            if x[3] == log_passwo:
+            if log_passwo == '#':
+                home()
+            elif x[3] == log_passwo:
                 llog.login_id=x[1]
                 llog.password_id=x[3]
                 llog.username=x[2]
@@ -125,20 +135,27 @@ def login():
                 print("Loggined Successfully !!")
                 print("---------------------------------------")
                 home()
+                break;
             else:
                 print("---------------------------------------")
                 print("Incorrect Password")
                 print("Please Re enter Password and email")
                 print("---------------------------------------")
                 login()
+                break;
         else:
             llog.login_id=""
+            print("---------------------------------------")
             print("Your Email not registered")
             print("Please Register First!!")
+            print("---------------------------------------")
             home()
+            break;
           
 def register():
     llog.name1=input("Enter Your Name: ")
+    if llog.name1 == "#":
+        home()
     llog.name=llog.name1.lower()
     usern()
     log_cre()
@@ -151,6 +168,8 @@ def register():
 
 def log_cre():
     llog.login_id1=input("Enter Your Email Address: ")
+    if llog.login_id1 == '#':
+        home()
     llog.login_id=llog.login_id1.lower()
     log_let = len(llog.login_id)
     log_index= log_let - 1
@@ -174,6 +193,8 @@ def log_cre():
         
 def pass_cre():
     llog.password_id=input("Create Your Password (Atleast 5 Letters): ")
+    if llog.password_id == '#':
+        home()
     pass_verify= len(llog.password_id)
     if pass_verify < 4:
         print("Please Create Password greater than 5 letters")
@@ -182,13 +203,15 @@ def pass_cre():
 def usern():
     cur.execute("SELECT * FROM login")
     llog.username1=input("Create your Username: ")
+    if llog.username1 == '#':
+        home()
     llog.username=llog.username1.lower()
     for x in cur:
         if x[2] == llog.username:
             print("Username Already Used Please Retry!!")
             usern()
-
-    
+            break;
+   
 def search():
     print("")
 
@@ -207,7 +230,9 @@ def paymentopts():
 
     payment_method = "none"
     pay_opt = input(choice)
-    if pay_opt == '1':
+    if pay_opt == '#':
+        home()
+    elif pay_opt == '1':
         paymentopts.payment_method = "UPI"
         upi()
     elif pay_opt == '2':
@@ -224,6 +249,8 @@ def paymentopts():
 
 def card_num():
     card_no = int(input("Enter 16 Digit Card Number: "))
+    if card_no == '#':
+        home()
     card_verify = card_no / 10**15
     if card_verify < 10 and card_verify >= 1:
         card_month()        
@@ -233,6 +260,8 @@ def card_num():
     
 def card_month():
     card_mon = int(input("Enter Expiry Month in MM format: "))
+    if card_mon == '#':
+        home()
     if card_mon < 13 and card_mon != 0:
         card_year()        
     else:
@@ -241,7 +270,9 @@ def card_month():
 
 def card_year():
     card_yr = int(input("Enter Expiry Year in YY format: "))
-    if card_yr >= 21:
+    if card_yr == '#':
+        home()
+    elif card_yr >= 21:
         card_cvv()
     else:
         print("Please re enter Correct Expiry Year")
@@ -249,6 +280,8 @@ def card_year():
 
 def card_cvv():
     card_cv = int(input("Enter 3/4 Digit Card CVV: "))
+    if card_cv == '#':
+        home()
     card_verify = card_cv / 10**2
     if card_verify < 100 and card_verify >= 1:
         order_placed()        
@@ -258,6 +291,8 @@ def card_cvv():
 
 def upi():
     upi_id = input("Enter Your UPI id: ")
+    if upi_id == '#':
+        home()
     upi_let = len(upi_id)
     upi_index= upi_let - 1
     upi_verify=0
@@ -307,4 +342,3 @@ def row():
 
 row()
 home()
-
