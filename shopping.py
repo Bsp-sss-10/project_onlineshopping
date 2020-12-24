@@ -49,7 +49,13 @@ def home():
     print("---------------------------------------")
     screen_opt= input(choice)
     if screen_opt == '1':
-        if llog.login_id == "":
+        if row.cnt == 0:
+            print("---------------------------------------")
+            print("No Account Found in Database")
+            print("Create new Account first")
+            print("---------------------------------------")
+            home()
+        elif llog.login_id == "":
             login()
         else:
             invalid()
@@ -125,7 +131,6 @@ def login():
                 print("Please Re enter Password and email")
                 print("---------------------------------------")
                 login()
-            break;
         else:
             llog.login_id=""
             print("Your Email not registered")
@@ -294,5 +299,11 @@ def seedb_login():
     cur.execute(sql)
     for x in cur:
         print(x)
+        
+def row():
+    sql = "SELECT * FROM login"
+    cur.execute(sql)
+    row.cnt=cur.rowcount
 
+row()
 home()
