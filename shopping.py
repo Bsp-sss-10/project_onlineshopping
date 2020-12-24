@@ -110,7 +110,7 @@ def login():
             log_verify=1
     if log_verify == 0 or llog.login_id2[log_index] == "@":
         print("Please Enter Valid Email")
-        log_cre()    
+        login()    
     cur.execute("SELECT * FROM login")
     for x in cur:
         c=str(x[1])
@@ -122,7 +122,7 @@ def login():
                 llog.username=x[2]
                 llog.name=x[0]
                 print("---------------------------------------")
-                print("Loggined Succesfully !!")
+                print("Loggined Successfully !!")
                 print("---------------------------------------")
                 home()
             else:
@@ -307,3 +307,4 @@ def row():
 
 row()
 home()
+
