@@ -126,6 +126,7 @@ def login():
         print("Please Enter Valid Email")
         login()
     cur.execute("SELECT * FROM login")
+    log1=0
     for x in cur:
         c=str(x[1])
         if c == llog.login_id2:
@@ -133,6 +134,7 @@ def login():
             if log_passwo == '#':
                 home()
             elif x[3] == log_passwo:
+                log1=1
                 llog.login_id=x[1]
                 llog.password_id=x[3]
                 llog.username=x[2]
@@ -147,16 +149,15 @@ def login():
                 print("Incorrect Password")
                 print("Please Re enter Password and email")
                 print("---------------------------------------")
+                log1=1
                 login()
-                break;
-        else:
-            llog.login_id=""
-            print("---------------------------------------")
-            print("Your Email not registered")
-            print("Please Register First!!")
-            print("---------------------------------------")
-            home()
-            break;
+    if log1 == 0:
+        llog.login_id=""
+        print("---------------------------------------")
+        print("Your Email not registered")
+        print("Please Register First!!")
+        print("---------------------------------------")
+        home()
           
 def register():
     llog.name1=input("Enter Your Name: ")
@@ -307,7 +308,7 @@ def order():
         if x[4] == llog.login_id:
             print("---------------------------------------")
             print("Order number :", x[0])
-            print("Email        :", x[4])
+            #print("Email        :", x[4])
             print("Item name    :", x[2])
             print("Amount       :", x[3])
             print("Quantity     :", x[6])
