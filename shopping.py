@@ -110,6 +110,7 @@ def logout():
     home()
 
 def login():
+    cap_cha()
     print("---------------------------------------")
     print("                LOGIN                  ")    
     print("---------------------------------------")
@@ -141,7 +142,7 @@ def login():
                 llog.username=x[2]
                 llog.name2=x[0]
                 print("---------------------------------------")
-                print("Loggined Successfully !!")
+                print("Logged in Successfully !!")
                 print("---------------------------------------")
                 home()
                 break;
@@ -161,6 +162,7 @@ def login():
         home()
           
 def register():
+    cap_cha()
     print("---------------------------------------")
     llog.name1=input("Enter Your Name: ")
     if llog.name1 == "#":
@@ -170,7 +172,7 @@ def register():
     log_cre()
     pass_cre()
     print("---------------------------------------")
-    print("Successfully logged and registered!!")
+    print("Successfully Logged in and Registered!!")
     print("---------------------------------------")
     update_login()
     home()
@@ -238,7 +240,8 @@ def search():
                 print(x[2],"          ",x[0],'  ','Rs.',x[1])
                 print("")
                 llog.it+=1
-                print(llog.it, "Product found")
+
+    print(llog.it, "Product found")
                 
     if llog.it == 0:
         print("")
@@ -270,6 +273,49 @@ def product_int():
         else:
             verify_pro()
 
+
+def captcha():
+    cap=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','U','V','W','X','Y','Z',1,2,3,4,5,6,7,8,9,0]
+    cap0 = random.choice(cap)
+    cap1 = random.choice(cap)
+    cap2 = random.choice(cap)
+    cap3 = random.choice(cap)
+    cap4 = random.choice(cap)
+    capp0 = str(cap0)
+    capp1 = str(cap1)
+    capp2 = str(cap2)
+    capp3 = str(cap3)
+    capp4 = str(cap4)
+    capt = capp0 + capp1 +capp2 + capp3 + capp4
+    print("---------------------------------------")
+    print("PLEASE SOLVE CAPTCHA BELOW TO PROCEED")
+    print("---------------------------------------")
+    print("             ",cap0,cap1,cap2,cap3,cap4)
+    print("---------------------------------------")
+    print("Please Write Captcha Without Space")
+    print("Press # to go back to home")
+    print("Press * to Change Captcha")
+    print("---------------------------------------")
+    cape = input("Type Captcha or Select Options:")
+    if cape == '#':
+        home()
+    elif cape == '*':
+        captcha()
+    elif cape == capt:
+        print("---------------------------------------")
+        print("             CAPTCHA SOLVED")
+        print("---------------------------------------")
+    else:
+        print("---------------------------------------")
+        print("      CAPTCHA INCORRECT PLEASE RETRY")
+        print("---------------------------------------")
+        captcha()
+
+def cap_cha():
+    capq = [0,0,0,1,1]
+    capq1 = random.choice(capq)
+    if capq1 == 1:
+        captcha()
 
 def verify_pro():
     cur.execute("SELECT * FROM items")
@@ -306,6 +352,7 @@ def order():
     print("                ORDERS")
     print("---------------------------------------")
     cur.execute("SELECT * FROM orders")
+    or_vet = 0
     for x in cur:
         if x[4] == llog.login_id:
             print("---------------------------------------")
@@ -318,7 +365,15 @@ def order():
             print("Order Date   :", x[1])
             print("Total Amount :", x[7])
             print("---------------------------------------")
-    end=input("Press Enter to back")
+            print("")
+            or_vet+=1
+    if or_vet == 0:
+        print("")
+        print("                Opps !!")
+        print("        No Orders Were Found")
+        print("")
+        print("---------------------------------------")
+    end=input("Press Enter to go back")
     home()
         
 def items():
@@ -329,6 +384,7 @@ def items():
     product_int()
     
 def paymentopts():
+    cap_cha()
     print("Select Payment Method")
     print("[1] UPI")
     print("[2] Debit Card / Credit Card")
