@@ -1,5 +1,6 @@
 import random
 from datetime import date
+import sys
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -93,7 +94,7 @@ def home():
             invalid()
             home()
     elif screen_opt == '7':
-        quit
+        sys.exit()
     else:
         invalid()
         home()
@@ -160,15 +161,16 @@ def login():
         home()
           
 def register():
+    print("---------------------------------------")
     llog.name1=input("Enter Your Name: ")
     if llog.name1 == "#":
         home()
-    llog.name=llog.name1.lower()
+    llog.name2=llog.name1.lower()
     usern()
     log_cre()
     pass_cre()
     print("---------------------------------------")
-    print("successfully Login in and Registered!!")
+    print("Successfully logged and registered!!")
     print("---------------------------------------")
     update_login()
     home()
@@ -251,7 +253,7 @@ def product_int():
     print("---------------------------------------")
     print("Select Item no to Proceed to buy")
     print("or Press # to go back")
-    print("or Press * to research")
+    print("or Press * to search again")
     print("---------------------------------------")
     llog.buy_it = input(choice)
     if llog.buy_it =='#':
@@ -447,7 +449,7 @@ def order_placed():
     print("---------------------------------------")
     update_order()
     reset_order()
-    end=input("Write any thing to go home: ")
+    end=input("Press Enter to go home: ")
     home()
     
 def update_login():    
