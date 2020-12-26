@@ -90,6 +90,10 @@ def home():
     elif screen_opt == '6':
         if llog.login_id != "":
             logout()
+            print("---------------------------------------")
+            print("Logout Successfully !")
+            print("---------------------------------------")
+            home()
         else:
             invalid()
             home()
@@ -104,10 +108,6 @@ def logout():
     llog.password_id=""
     llog.username=""
     llog.name2="User"
-    print("---------------------------------------")
-    print("Logout Successfully !")
-    print("---------------------------------------")
-    home()
 
 def login():
     cap_cha()
@@ -116,6 +116,7 @@ def login():
     print("---------------------------------------")
     llog.login_id1=input("Enter Your Email Address: ")
     if llog.login_id1 == '#':
+        logout()
         home()
     llog.login_id2=llog.login_id1.lower()
     log_let = len(llog.login_id)
@@ -134,6 +135,7 @@ def login():
         if c == llog.login_id2:
             log_passwo=input("Enter your Password: ")
             if log_passwo == '#':
+                logout()
                 home()
             elif x[3] == log_passwo:
                 log1=1
@@ -166,6 +168,7 @@ def register():
     print("---------------------------------------")
     llog.name1=input("Enter Your Name: ")
     if llog.name1 == "#":
+        logout()
         home()
     llog.name2=llog.name1.lower()
     usern()
@@ -180,6 +183,7 @@ def register():
 def log_cre():
     llog.login_id1=input("Enter Your Email Address: ")
     if llog.login_id1 == '#':
+        logout()
         home()
     llog.login_id=llog.login_id1.lower()
     log_let = len(llog.login_id)
@@ -203,18 +207,20 @@ def log_cre():
             break;
         
 def pass_cre():
-    llog.password_id=input("Create Your Password (Atleast 5 Letters): ")
+    llog.password_id=input("Create Your Password (Atleast 4 Letters): ")
     if llog.password_id == '#':
+        logout()
         home()
     pass_verify= len(llog.password_id)
     if pass_verify < 4:
-        print("Please Create Password greater than 5 letters")
+        print("Please Create Password alteast4 letters")
         pass_cre()
 
 def usern():
     cur.execute("SELECT * FROM login")
     llog.username1=input("Create your Username: ")
     if llog.username1 == '#':
+        logout()
         home()
     llog.username=llog.username1.lower()
     for x in cur:
@@ -227,27 +233,44 @@ def search():
     print("---------------------------------------")
     search1= input("Enter Name of Product: ")
     print("---------------------------------------")
+    print("")
     if search1 == '#':
         home()
     search2= search1.lower()
     cur.execute("SELECT * FROM items")
-    print("Item No.     Name       Amount")
+    print("--------------------------------------------------------------------")
+    print("   Item No.  | Name                                 | Amount       |")
+    print("--------------------------------------------------------------------")
     for x in cur:
         word_l = x[0].lower()
         word = word_l.split()
         for i in word:
-            if i == search1:
-                print(x[2],"          ",x[0],'  ','Rs.',x[1])
-                print("")
+            w = i.lower()
+            if w == search2:
+                c=len(x[0])
+                d= 35-c
+                e=d*' '
+                f=str(x[2])
+                f1=len(f)
+                g=3-f1
+                h=g*' '
+                w=str(x[1])
+                y=len(w)
+                z=7-y
+                z1=z*' '
+                print("    ",x[2],h,'   |',x[0],e,'|','Rs.',x[1],z1,'|')
                 llog.it+=1
-
+    print("--------------------------------------------------------------------")
+    print("")
     print(llog.it, "Product found")
                 
     if llog.it == 0:
         print("")
+        print("---------------------------------------")
         print("No product Found with this name")
         print("Please try again !!")
         print("or Press # to go Home")
+        print("---------------------------------------")
         search()
     else:
         product_int()
@@ -267,7 +290,9 @@ def product_int():
         search()
     else:
         if llog.login_id == '':
+            print("---------------------------------------")
             print("Please Login In First !!")
+            print("---------------------------------------")
             llog.it=0
             home()
         else:
@@ -342,7 +367,7 @@ def verify_pro():
             order_det()
             paymentopts()
         if ver == 'n':
-            home()
+            product_int()
         else:
             print("Please select valid option!!")
             verify_pro()
@@ -378,9 +403,25 @@ def order():
         
 def items():
     cur.execute("SELECT * FROM items")
-    print("Item No.     Name       Amount")
+    print("--------------------------------------------------------------------")
+    print("   Item No.  | Name                                 | Amount       |")
+    print("--------------------------------------------------------------------")
     for x in cur:
-        print(x[2],"          ",x[0],'  ','Rs.',x[1])
+        c=len(x[0])
+        d= 35-c
+        e=d*' '
+        f=str(x[2])
+        f1=len(f)
+        g=3-f1
+        h=g*' '
+        w=str(x[1])
+        y=len(w)
+        z=7-y
+        z1=z*' '
+        print("    ",x[2],h,'   |',x[0],e,'|','Rs.',x[1],z1,'|')
+        llog.it+=1
+    print("--------------------------------------------------------------------")
+    print("")
     product_int()
     
 def paymentopts():
