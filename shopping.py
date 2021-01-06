@@ -26,6 +26,14 @@ llog.name=""
 llog.id=0
 llog.qty=0
 llog.am=0
+llog.cart1=[]
+llog.cart2=[]
+llog.cart3=[]
+llog.cart4=[]
+llog.cart5=[]
+llog.cartp=0
+llog.cart_total=0
+llog.cart_it=0
 
 def invalid():
     print("---------------------------------------")
@@ -52,8 +60,9 @@ def home():
         
     print("[5] VIEW ALL ITEMS")
     if llog.login_id != "":
-        print("[6] LOGOUT")
-    print("[7] EXIT")
+        print("[6] VIEW CART")
+        print("[7] LOGOUT")
+    print("[8] EXIT")
     print("---------------------------------------")
     print(" Press '#' to back to home")
     print(" From anywhere ( without qoutes )")
@@ -89,6 +98,12 @@ def home():
         items()
     elif screen_opt == '6':
         if llog.login_id != "":
+            cart()
+        else:
+            invalid()
+            home()
+    elif screen_opt == '7':
+        if llog.login_id != "":
             logout()
             print("---------------------------------------")
             print("Logout Successfully !")
@@ -97,7 +112,7 @@ def home():
         else:
             invalid()
             home()
-    elif screen_opt == '7':
+    elif screen_opt == '8':
         sys.exit()
     else:
         invalid()
@@ -108,6 +123,13 @@ def logout():
     llog.password_id=""
     llog.username=""
     llog.name2="User"
+    llog.order_amount=0
+    llog.cart1=[]
+    llog.cart2=[]
+    llog.cart3=[]
+    llog.cart4=[]
+    llog.cart5=[]
+    llog.cartp=0
 
 def login():
     cap_cha()
@@ -261,8 +283,6 @@ def search():
                 print("    ",x[2],h,'   |',x[0],e,'|','Rs.',x[1],z1,'|')
                 llog.it+=1
     print("--------------------------------------------------------------------")
-    print("")
-    print(llog.it, "Product found")
                 
     if llog.it == 0:
         print("")
@@ -277,8 +297,9 @@ def search():
 
 def product_int():
     print("---------------------------------------")
-    print("Select Item no to Proceed to buy")
+    print("Select Item no to Add to Cart")
     print("or Press # to go back")
+    print("or Press $ to go cart")
     print("or Press * to search again")
     print("---------------------------------------")
     llog.buy_it = input(choice)
@@ -288,6 +309,9 @@ def product_int():
     elif llog.buy_it == '*':
         llog.it=0
         search()
+    elif llog.buy_it == '$':
+        llog.it=0
+        cart()
     else:
         if llog.login_id == '':
             print("---------------------------------------")
@@ -296,6 +320,30 @@ def product_int():
             llog.it=0
             home()
         else:
+            if llog.cartp != 0:
+                for i in range (0,llog.cartp):
+                    x_12 = str(llog.cart5[i]) 
+                    if x_12 == llog.buy_it:
+                        print("---------------------------------------")
+                        print("Item Already Added to cart")
+                        print("---------------------------------------")
+                        print("Do you want to edit quantity of",llog.cart1[i],"?")
+                        print("Writing other Y/N will be considered as N")
+                        print("---------------------------------------")
+                        kkk = input("[Y/N] : ")
+                        print("---------------------------------------")
+                        kkkk = kkk.lower()
+                        if kkkk == 'y':
+                            llog.qty = int(input("Enter quantity :"))
+                            print("---------------------------------------")
+                            print("Quantity Edited Successfully !!")
+                            print("---------------------------------------")
+                            llog.cart4[i] = llog.qty
+                            llog.order_amount = llog.am * llog.qty
+                            llog.cart3[i] = llog.order_amount
+                            product_int()
+                        else:
+                            product_int()
             verify_pro()
 
 
@@ -358,20 +406,163 @@ def verify_pro():
         product_int()
     else:
         print("---------------------------------------")
-        print("Are you sure that you want to buy", llog.name)
-        vero = input("[Y/N]: ")
+        print("Product Name:", llog.name)
+        print("Price       :", llog.am)
+        vero = input("Are you sure that you want to Add to cart? [Y/N]: ")
         ver = vero.lower()
         if ver == 'y':
             print("---------------------------------------")
-            llog.qty = int(input("Enter Qty:"))
-            order_det()
-            paymentopts()
-        if ver == 'n':
+            llog.qty = int(input("Enter quantity :"))
+            llog.order_amount = llog.am * llog.qty
+            llog.cart1.append(llog.name)
+            llog.cart2.append(llog.am)
+            llog.cart3.append(llog.order_amount)
+            llog.cart4.append(llog.qty)
+            llog.cart5.append(llog.id)
+            print(llog.name, 'is Added successfully !!')
+            llog.cartp+=1
+            product_int()
+        elif ver == 'n':
             product_int()
         else:
             print("Please select valid option!!")
             verify_pro()
-            
+
+def cart():
+    print("---------------------------------------")
+    print("                CART")
+    print("---------------------------------------")
+    if llog.cartp == 0:
+        print("")
+        print("                Opps !!")
+        print("     No products were found in cart")
+        print("")
+        print("---------------------------------------")
+        end=input("Press Enter to go back")
+        home()
+    else:
+        print("-----------------------------------------------------------------------------------------------")
+        print("   Item No.  | Name                                    |    Price     |  Qty  |  Amount       |")
+        print("-----------------------------------------------------------------------------------------------")
+        for c in range (0,llog.cartp):
+            c1=len(llog.cart1[c])
+            d= 35-c1
+            e=d*' '
+            f=str(llog.cart2[c])
+            f1=len(f)
+            g=7-f1
+            h=g*' '
+            w=str(llog.cart4[c])
+            y=len(w)
+            z=3-y
+            z1=z*' '
+            z2=str(llog.cart3[c])
+            z3=len(z2)
+            z4=11-z3
+            z5=z4*' '
+            z6=str(llog.cart5[c])
+            z7=len(z6)
+            z8=10-z7
+            z9=z8*' '
+            print("",llog.cart5[c],z9,"|",llog.cart1[c],e,'   | Rs.',llog.cart2[c],h,'| ',llog.cart4[c],z1,'| ',llog.cart3[c],z5,'|')
+            llog.cart_total+=llog.cart3[c]
+        print("-----------------------------------------------------------------------------------------------")
+        print("Total :", llog.cart_total)
+        print("-----------------------------------------------------------------------------------------------")
+        print("---------------------------------------")
+        print(" Type 'b' to proceed to buy")
+        print(" Type 'e' to edit cart")
+        print(" Type '#' to go back to home")
+        print("---------------------------------------")
+        cart_opt=input(choice)
+        cart_opt2=cart_opt.lower()
+        if cart_opt2 == 'b':
+            order_det()
+            paymentopts()
+        elif cart_opt2 == 'e':
+            cart_edit()
+        elif cart_opt2 == '#':
+            home()
+        else:
+            print("Please Select valid Option !!")
+            cart()
+
+def cart_edit2():
+    print("---------------------------------------")
+    print("Please Select Options from below")
+    print("---------------------------------------")
+    print("type '1' to edit quantity")
+    print("type '2' to remove item")
+    print("type '3' to reselect item")
+    print("type '#' to go to Home")
+    print("type 'c' to go to Cart")
+    print("---------------------------------------")
+    carted = input(choice)
+    carted1=carted.lower()
+    if carted1 == '1':
+        for i in range (0,llog.cartp): 
+            if llog.cart5[i] == llog.cart_it:
+                llog.qty = int(input("Enter quantity :"))
+                print("---------------------------------------")
+                print(" Quantity Edited Successfully !!")
+                print("---------------------------------------")
+                llog.cart4[i] = llog.qty
+                llog.order_amount = llog.am * llog.qty
+                llog.cart3[i] = llog.order_amount
+                llog.cartp = len(llog.cart5)
+                llog.cart_total=0
+                cart()
+    elif carted1 == '2':
+        for i in range (0,llog.cartp):
+            if llog.cart5[i] == llog.cart_it:
+                print("---------------------------------------")
+                print(" Item Removed Successfully !!")
+                print("---------------------------------------")
+                llog.cart1.pop(i)
+                llog.cart2.pop(i)
+                llog.cart3.pop(i)
+                llog.cart4.pop(i)
+                llog.cart5.pop(i)
+                llog.cartp = len(llog.cart5)
+                llog.cart_total=0
+                cart()
+    elif carted1 == '3':
+        llog.cart_it=0
+        cart_edit()
+    elif carted1 == '#':
+        llog.cart_it=0
+        home()
+    elif carted1 == 'c':
+        llog.cart_it=0
+        cart()
+    else:
+        print("---------------------------------------")
+        print("Please Select valid option")
+        cart_edit2()
+        
+def cart_edit():
+    print("---------------------------------------")
+    print("type '#' to go to Home")
+    print("type 'c' to go to Cart")
+    print("---------------------------------------")
+    cart_edo = input("Select item no. you want to edit: ")
+    cart_edo2= cart_edo.lower()
+    if cart_edo2 == '#':
+        home()
+    elif cart_edo2 == 'c':
+        cart()
+    item_verc = 0
+    for i in range (0,llog.cartp):
+        c = str(llog.cart5[i])
+        if c == cart_edo:
+            item_verc = 1
+            llog.cart_it=llog.cart5[i]
+    if item_verc == 0:
+        print("Please Select valid Item !!")
+        print("---------------------------------------")
+        cart_edit()
+    cart_edit2()    
+           
 def order():
     print("---------------------------------------")
     print("                ORDERS")
@@ -382,7 +573,6 @@ def order():
         if x[4] == llog.login_id:
             print("---------------------------------------")
             print("Order number :", x[0])
-            #print("Email        :", x[4])
             print("Item name    :", x[2])
             print("Amount       :", x[3])
             print("Quantity     :", x[6])
@@ -422,10 +612,9 @@ def items():
         llog.it+=1
     print("--------------------------------------------------------------------")
     print("")
-    product_int()
+    product_int()    
     
 def paymentopts():
-    cap_cha()
     print("Select Payment Method")
     print("[1] UPI")
     print("[2] Debit Card / Credit Card")
@@ -523,27 +712,50 @@ def order_det():
     print("---------------------------------------")
     order_no()    
     llog.order_date= date.today()
-    llog.order_amount = llog.am * llog.qty
     print("Your Order number is", llog.order_no)
-    print("Item name is", llog.name)
-    #print("Payment mode is", paymentopts.payment_method)
+    print("---------------------------------------")
+    print("Total Items x Qty")
+    print("---------------------------------------")
+    for i in range (0,llog.cartp):
+        oo1=str(llog.cart4[i])
+        oo2='x'+oo1
+        print(llog.cart1[i],oo2)
+    print("---------------------------------------")
     print("Order Date is", llog.order_date)
-    print("Total Amount is", llog.order_amount)
+    print("Total Amount is", llog.cart_total)
     print("---------------------------------------")
 
 def order_placed():
-    print("---------------------------------------")
-    print("              Order Placed")
-    print("---------------------------------------")
-    print("Order number :", llog.order_no)
-    print("Email        :", llog.login_id)
-    print("Item name    :", llog.name)
-    print("Amount       :", llog.am)
-    print("Quantity     :", llog.qty)
-    print("Payment mode :", paymentopts.payment_method)
-    print("Order Date   :", llog.order_date)
-    print("Total Amount :", llog.order_amount)
-    print("---------------------------------------")
+    print("----------------------------------------------------------------------")
+    print("                            Order Placed")
+    print("----------------------------------------------------------------------")
+    print(" Order number                  :", llog.order_no)
+    print(" Email                         :", llog.login_id)
+    print("----------------------------------------------------------------------")
+    print(" Item                         |    Price     |  Qty  |  Amount       |")
+    print("----------------------------------------------------------------------")
+    for c in range (0,llog.cartp):
+        c1=len(llog.cart1[c])
+        d= 25-c1
+        e=d*' '
+        f=str(llog.cart2[c])
+        f1=len(f)
+        g=7-f1
+        h=g*' '
+        w=str(llog.cart4[c])
+        y=len(w)
+        z=3-y
+        z1=z*' '
+        z2=str(llog.cart3[c])
+        z3=len(z2)
+        z4=11-z3
+        z5=z4*' '
+        print(llog.cart1[c],e,'   | Rs.',llog.cart2[c],h,'| ',llog.cart4[c],z1,'| ',llog.cart3[c],z5,'|')
+    print("----------------------------------------------------------------------")
+    print(" Payment mode                  :", paymentopts.payment_method)
+    print(" Order Date                    :", llog.order_date)
+    print(" Total Amount                  :", llog.cart_total)
+    print("----------------------------------------------------------------------")
     update_order()
     reset_order()
     end=input("Press Enter to go home: ")
@@ -555,11 +767,12 @@ def update_login():
     cur.execute(sql, val)
     mydb.commit()
 
-def update_order():    
-    sql = "INSERT INTO orders (order_no, date, item, amount, email, pay_method, qty, total) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-    val = (llog.order_no, llog.order_date,llog.name,llog.am,llog.login_id,paymentopts.payment_method,llog.qty,llog.order_amount)
-    cur.execute(sql, val)
-    mydb.commit()
+def update_order():
+    for i in range (0,llog.cartp):        
+        sql = "INSERT INTO orders (order_no, date, item, amount, email, pay_method, qty, total) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+        val = (llog.order_no, llog.order_date,llog.cart1[i],llog.cart2[i],llog.login_id,paymentopts.payment_method,llog.cart4[i],llog.cart3[i])
+        cur.execute(sql, val)
+        mydb.commit()
 
 def reset_order():
     llog.order_no = 0
@@ -569,7 +782,13 @@ def reset_order():
     paymentopts.payment_method=''
     llog.qty=0
     llog.order_amount=0
-
+    llog.cart1=[]
+    llog.cart2=[]
+    llog.cart3=[]
+    llog.cart4=[]
+    llog.cart5=[]
+    llog.cartp=0
+    
 def update_item():    
     sql = "INSERT INTO items (name, amount, item_no, category) VALUES (%s, %s, %s, %s)"
     val = ('Yonex Gr 300',500,1,'Sports')
