@@ -334,7 +334,11 @@ def product_int():
                         print("---------------------------------------")
                         kkkk = kkk.lower()
                         if kkkk == 'y':
-                            llog.qty = int(input("Enter quantity :"))
+                            llog.qty0 = int(input("Enter quantity :"))
+                            if llog.qty0 == 0:
+                                print("Please select valid quantity !!")
+                                product_int()
+                            llog.qty=llog.qty0    
                             print("---------------------------------------")
                             print("Quantity Edited Successfully !!")
                             print("---------------------------------------")
@@ -412,7 +416,11 @@ def verify_pro():
         ver = vero.lower()
         if ver == 'y':
             print("---------------------------------------")
-            llog.qty = int(input("Enter quantity :"))
+            llog.qty0 = int(input("Enter quantity :"))
+            if llog.qty0 == 0:
+                print("Please select valid quantity !!")
+                product_int()
+            llog.qty=llog.qty0
             llog.order_amount = llog.am * llog.qty
             llog.cart1.append(llog.name)
             llog.cart2.append(llog.am)
@@ -472,6 +480,7 @@ def cart():
         print("---------------------------------------")
         print(" Type 'b' to proceed to buy")
         print(" Type 'e' to edit cart")
+        print(" Type 'c' to clear cart")
         print(" Type '#' to go back to home")
         print("---------------------------------------")
         cart_opt=input(choice)
@@ -483,6 +492,19 @@ def cart():
             cart_edit()
         elif cart_opt2 == '#':
             home()
+        elif cart_opt2 == 'c':
+            are_sure = input("Are you Sure? [Y/N]:")
+            if are_sure.lower() == 'y':
+                llog.cart1=[]
+                llog.cart2=[]
+                llog.cart3=[]
+                llog.cart4=[]
+                llog.cart5=[]
+                llog.cartp=0
+                print("Cart Cleared Successfully !!")
+                home()
+            else:
+                cart()
         else:
             print("Please Select valid Option !!")
             cart()
@@ -502,7 +524,11 @@ def cart_edit2():
     if carted1 == '1':
         for i in range (0,llog.cartp): 
             if llog.cart5[i] == llog.cart_it:
-                llog.qty = int(input("Enter quantity :"))
+                llog.qty0 = int(input("Enter quantity :"))
+                if llog.qty0 == 0:
+                    print("Please select valid quantity !!")
+                    cart()
+                llog.qty=llog.qty0
                 print("---------------------------------------")
                 print(" Quantity Edited Successfully !!")
                 print("---------------------------------------")
@@ -525,7 +551,10 @@ def cart_edit2():
                 llog.cart5.pop(i)
                 llog.cartp = len(llog.cart5)
                 llog.cart_total=0
-                cart()
+                if llog.cartp == 0:
+                    home()
+                else:
+                    cart()
     elif carted1 == '3':
         llog.cart_it=0
         cart_edit()
