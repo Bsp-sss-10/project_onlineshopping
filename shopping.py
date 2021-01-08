@@ -119,14 +119,7 @@ def logout():
     llog.password_id=""
     llog.username=""
     llog.name2="User"
-    llog.order_amount=0
-    llog.cart1=[]
-    llog.cart2=[]
-    llog.cart3=[]
-    llog.cart4=[]
-    llog.cart5=[]
-    llog.cartp=0
-
+    
 def login():
     cap_cha()
     print("---------------------------------------")
