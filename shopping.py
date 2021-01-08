@@ -59,8 +59,8 @@ def home():
     print("[4] SEARCH ITEMS")
         
     print("[5] VIEW ALL ITEMS")
+    print("[6] VIEW CART")
     if llog.login_id != "":
-        print("[6] VIEW CART")
         print("[7] LOGOUT")
     print("[8] EXIT")
     print("---------------------------------------")
@@ -97,11 +97,7 @@ def home():
     elif screen_opt == '5':
         items()
     elif screen_opt == '6':
-        if llog.login_id != "":
             cart()
-        else:
-            invalid()
-            home()
     elif screen_opt == '7':
         if llog.login_id != "":
             logout()
