@@ -313,42 +313,35 @@ def product_int():
         llog.it=0
         cart()
     else:
-        if llog.login_id == '':
-            print("---------------------------------------")
-            print("Please Login In First !!")
-            print("---------------------------------------")
-            llog.it=0
-            home()
-        else:
-            if llog.cartp != 0:
-                for i in range (0,llog.cartp):
-                    x_12 = str(llog.cart5[i]) 
-                    if x_12 == llog.buy_it:
-                        print("---------------------------------------")
-                        print("Item Already Added to cart")
-                        print("---------------------------------------")
-                        print("Do you want to edit quantity of",llog.cart1[i],"?")
-                        print("Writing other Y/N will be considered as N")
-                        print("---------------------------------------")
-                        kkk = input("[Y/N] : ")
-                        print("---------------------------------------")
-                        kkkk = kkk.lower()
-                        if kkkk == 'y':
-                            llog.qty0 = int(input("Enter quantity :"))
-                            if llog.qty0 == 0:
-                                print("Please select valid quantity !!")
-                                product_int()
-                            llog.qty=llog.qty0    
-                            print("---------------------------------------")
-                            print("Quantity Edited Successfully !!")
-                            print("---------------------------------------")
-                            llog.cart4[i] = llog.qty
-                            llog.order_amount = llog.am * llog.qty
-                            llog.cart3[i] = llog.order_amount
+        if llog.cartp != 0:
+            for i in range (0,llog.cartp):
+                x_12 = str(llog.cart5[i]) 
+                if x_12 == llog.buy_it:
+                    print("---------------------------------------")
+                    print("Item Already Added to cart")
+                    print("---------------------------------------")
+                    print("Do you want to edit quantity of",llog.cart1[i],"?")
+                    print("Writing other Y/N will be considered as N")
+                    print("---------------------------------------")
+                    kkk = input("[Y/N] : ")
+                    print("---------------------------------------")
+                    kkkk = kkk.lower()
+                    if kkkk == 'y':
+                        llog.qty0 = int(input("Enter quantity :"))
+                        if llog.qty0 == 0:
+                            print("Please select valid quantity !!")
                             product_int()
-                        else:
-                            product_int()
-            verify_pro()
+                        llog.qty=llog.qty0    
+                        print("---------------------------------------")
+                        print("Quantity Edited Successfully !!")
+                        print("---------------------------------------")
+                        llog.cart4[i] = llog.qty
+                        llog.order_amount = llog.am * llog.qty
+                        llog.cart3[i] = llog.order_amount
+                        product_int()
+                    else:
+                        product_int()
+        verify_pro()
 
 
 def captcha():
@@ -486,8 +479,14 @@ def cart():
         cart_opt=input(choice)
         cart_opt2=cart_opt.lower()
         if cart_opt2 == 'b':
-            order_det()
-            paymentopts()
+            if llog.login_id == '':
+                print("---------------------------------------")
+                print("Please Login In First !!")
+                print("---------------------------------------")
+                home()
+            else:
+                order_det()
+                paymentopts()
         elif cart_opt2 == 'e':
             cart_edit()
         elif cart_opt2 == '#':
