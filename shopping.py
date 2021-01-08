@@ -317,7 +317,7 @@ def product_int():
                     kkkk = kkk.lower()
                     if kkkk == 'y':
                         llog.qty0 = int(input("Enter quantity :"))
-                        if llog.qty0 == 0:
+                        if llog.qty0 <= 0:
                             print("Please select valid quantity !!")
                             product_int()
                         llog.qty=llog.qty0    
@@ -399,7 +399,7 @@ def verify_pro():
         if ver == 'y':
             print("---------------------------------------")
             llog.qty0 = int(input("Enter quantity :"))
-            if llog.qty0 == 0:
+            if llog.qty0 <= 0:
                 print("Please select valid quantity !!")
                 product_int()
             llog.qty=llog.qty0
@@ -513,7 +513,7 @@ def cart_edit2():
         for i in range (0,llog.cartp): 
             if llog.cart5[i] == llog.cart_it:
                 llog.qty0 = int(input("Enter quantity :"))
-                if llog.qty0 == 0:
+                if llog.qty0 <= 0:
                     print("Please select valid quantity !!")
                     cart()
                 llog.qty=llog.qty0
