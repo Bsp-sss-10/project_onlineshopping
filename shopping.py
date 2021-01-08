@@ -431,8 +431,7 @@ def cart():
     print("---------------------------------------")
     if llog.cartp == 0:
         print("")
-        print("                Opps !!")
-        print("     No products were found in cart")
+        print("              Cart is empty")
         print("")
         print("---------------------------------------")
         end=input("Press Enter to go back")
