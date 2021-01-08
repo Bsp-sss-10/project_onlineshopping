@@ -201,7 +201,7 @@ def log_cre():
     log_index= log_let - 1
     log_verify=0
     for i in llog.login_id:
-        if i == "@":
+        if i == "@" or i == " ":
             log_verify=1
     if log_verify == 0 or llog.login_id[log_index] == "@":
         print("Please Enter Valid Email")
