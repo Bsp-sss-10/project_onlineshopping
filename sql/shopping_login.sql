@@ -26,7 +26,8 @@ CREATE TABLE `login` (
   `Name` varchar(255) DEFAULT NULL,
   `Email` varchar(255) DEFAULT NULL,
   `Username` varchar(255) DEFAULT NULL,
-  `Password` varchar(255) DEFAULT NULL
+  `Password` varchar(255) DEFAULT NULL,
+  `Address` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -36,7 +37,7 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES ('shivan','shivan@gmail.com','shivan','1234'),('shivan','shivan2@gmail.com','shivan1','12345'),('test','test@gmail.com','test','123456'),('ss','tes5@gmail.com','test1','ssss'),('ishaan','ishaan.singh15@yahoo.in','ish','123456'),('User','rohit@gmail.com','rohit12','1234'),('ishaan','ishaan@singh15@yahoo.in','ishaan','ishaan10000'),('777777777777','222@222','222222222222','12345'),('kumud singh','kumudsingh05@gmail.com','kumud','12345'),('raj','raji@rah.com','raji','1234');
+INSERT INTO `login` VALUES ('shivan','shivan@gmail.com','shivan','1234','A-23 chpl,bhilai$A-23, Chpl chouhan Dream homes,  smriti nagar,bhilai,Chhattisgarh(490020)'),('shivan','shivan2@gmail.com','shivan1','12345',NULL),('test','test@gmail.com','test','123456',NULL),('ss','tes5@gmail.com','test1','ssss',NULL),('ishaan','ishaan.singh15@yahoo.in','ish','123456',NULL),('User','rohit@gmail.com','rohit12','1234',NULL),('ishaan','ishaan@singh15@yahoo.in','ishaan','ishaan10000',NULL),('777777777777','222@222','222222222222','12345',NULL),('kumud singh','kumudsingh05@gmail.com','kumud','12345',NULL),('raj','raji@rah.com','raji','1234',NULL),('haha','shivan999999@gmail','sivan','siva',NULL),('shivan','1@2','1','1234',NULL),('tt','12@2','12','1234',NULL),('ravi','ravnishsingh68@gmail.com','ravi','shivan',NULL),('shivan','shivanii@1','shivani','1234',NULL),('shivan','tst@t','test0','1234',NULL);
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-26  3:48:41
+-- Dump completed on 2021-01-31 12:45:06
