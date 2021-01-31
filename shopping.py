@@ -34,6 +34,7 @@ llog.cart5=[]
 llog.cartp=0
 llog.cart_total=0
 llog.cart_it=0
+llog.sav_add=0
 
 def invalid():
     print("---------------------------------------")
@@ -119,6 +120,8 @@ def logout():
     llog.password_id=""
     llog.username=""
     llog.name2="User"
+    llog.add_fin=''
+    llog.sav_add=0
     
 def login():
     cap_cha()
@@ -475,7 +478,8 @@ def cart():
                 home()
             else:
                 order_det()
-                paymentopts()
+                address_sav()
+                address_old()
         elif cart_opt2 == 'e':
             cart_edit()
         elif cart_opt2 == '#':
@@ -591,6 +595,7 @@ def order():
             print("---------------------------------------")
             print("Order number :", x[0])
             print("Item name    :", x[2])
+            print("Address      :", x[8])
             print("Amount       :", x[3])
             print("Quantity     :", x[6])
             print("Payment mode :", x[5])
@@ -630,9 +635,81 @@ def items():
     print("--------------------------------------------------------------------")
     print("")
     product_int()    
+
+def address_sav():
+    cur.execute("SELECT * FROM login")
+    for x in cur:
+        if x[1] == llog.login_id:
+            if x[4] != None:
+                llog.sav_add=x[4].split("$")
+
+def address_old():
+    
+    if llog.sav_add != 0:
+        print("---------------------------------------")
+        print("Select Address")
+        print("---------------------------------------")
+        k=len(llog.sav_add)
+        for i in range(0,k):
+            c_2=str(i+1)
+            c='['+c_2+'] '+llog.sav_add[i]
+            print(c)
+        c_1=i+2
+        c_3=str(c_1)
+        c_4='['+c_3+'] Enter New Address'
+        print(c_4)
+        print("")
+        add_opt=int(input("Enter your choice:"))
+        for i in range(0,k):
+            if add_opt == i+1:
+                llog.add_fin=llog.sav_add[i]
+                paymentopts()
+                break;
+        if add_opt == i+2:
+            address()
+        else:
+            print('Enter valid choice')
+            address_old()
+    else:
+        address()
+        
+
+def address():
+    print("---------------------------------------")
+    print("Address")
+    print("---------------------------------------")
+    add_1=input("Enter your Address:")
+    add_2=input("Enter your city name:")
+    add_3=input("Enter your State:")
+    add_4=input("Enter your PIN code:")
+    llog.add_fin=add_1+', '+add_2+', '+add_3+'('+add_4+')'
+    sav_1=input("Do you want to Save this Address? [y for YES]")
+    if sav_1.lower() == 'y':
+        update_address()
+        paymentopts()
+    else:
+        paymentopts()
+
+def update_address():
+    cur.execute("SELECT * FROM login")
+    for x in cur:
+        if x[1] == llog.login_id:
+            if x[4] != None:
+                save_add=x[4]+'$'+llog.add_fin
+            else:
+                save_add=llog.add_fin
+    query = """ UPDATE login
+                SET Address = %s
+                WHERE Email = %s """
+
+    data = (save_add, llog.login_id)
+    cur.execute(query, data)
+    mydb.commit()
     
 def paymentopts():
+    print("---------------------------------------")
     print("Select Payment Method")
+    print("---------------------------------------")
     print("[1] UPI")
     print("[2] Debit Card / Credit Card")
     print("[3] Cash On Delivery")
@@ -748,6 +825,7 @@ def order_placed():
     print("----------------------------------------------------------------------")
     print(" Order number                  :", llog.order_no)
     print(" Email                         :", llog.login_id)
+    print(" Address                       :", llog.add_fin)
     print("----------------------------------------------------------------------")
     print(" Item                         |    Price     |  Qty  |  Amount       |")
     print("----------------------------------------------------------------------")
@@ -779,15 +857,15 @@ def order_placed():
     home()
     
 def update_login():    
-    sql = "INSERT INTO login (Name, Email, Username, Password) VALUES (%s, %s, %s, %s)"
-    val = (llog.name2, llog.login_id,llog.username,llog.password_id)
+    sql = "INSERT INTO login (Name, Email, Username, Password, Address) VALUES (%s, %s, %s, %s, %s)"
+    val = (llog.name2, llog.login_id,llog.username,llog.password_id,None)
     cur.execute(sql, val)
     mydb.commit()
 
 def update_order():
     for i in range (0,llog.cartp):        
-        sql = "INSERT INTO orders (order_no, date, item, amount, email, pay_method, qty, total) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-        val = (llog.order_no, llog.order_date,llog.cart1[i],llog.cart2[i],llog.login_id,paymentopts.payment_method,llog.cart4[i],llog.cart3[i])
+        sql = "INSERT INTO orders (order_no, date, item, amount, email, pay_method, qty, total, Address) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        val = (llog.order_no, llog.order_date,llog.cart1[i],llog.cart2[i],llog.login_id,paymentopts.payment_method,llog.cart4[i],llog.cart3[i],llog.add_fin)
         cur.execute(sql, val)
         mydb.commit()
 
@@ -805,6 +883,8 @@ def reset_order():
     llog.cart4=[]
     llog.cart5=[]
     llog.cartp=0
+    llog.add_fin=''
+    llog.sav_add=0
     
 def update_item():    
     sql = "INSERT INTO items (name, amount, item_no, category) VALUES (%s, %s, %s, %s)"
