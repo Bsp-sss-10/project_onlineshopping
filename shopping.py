@@ -525,7 +525,7 @@ def cart_edit2():
                 print(" Quantity Edited Successfully !!")
                 print("---------------------------------------")
                 llog.cart4[i] = llog.qty
-                llog.order_amount = llog.am * llog.qty
+                llog.order_amount = llog.cart2[i] * llog.qty
                 llog.cart3[i] = llog.order_amount
                 llog.cartp = len(llog.cart5)
                 llog.cart_total=0
